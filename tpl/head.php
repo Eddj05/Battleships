@@ -27,7 +27,7 @@ function p_print($array){
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">WP21 Assignment 3</a>
+        <a class="navbar-brand" href="#">WP24 Final Project</a>
         <ul class="navbar-nav mr-auto">
             <?php $active = $navigation['active']; ?>
             <?php foreach($navigation['items'] as $title => $url){
