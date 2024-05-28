@@ -1,0 +1,22 @@
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#startup:link, a:visited {
+    background-color: aqua;
+    color: black;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#startup:hover, a:active {
+    background-color: blue;
+    color: white;
+}
+

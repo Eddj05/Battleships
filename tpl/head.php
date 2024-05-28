@@ -18,7 +18,6 @@ function p_print($array){
     <!-- Styles -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/style.css">
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -28,19 +27,5 @@ function p_print($array){
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">WP24 Final Project</a>
-        <ul class="navbar-nav mr-auto">
-            <?php $active = $navigation['active']; ?>
-            <?php foreach($navigation['items'] as $title => $url){
-                if ($title == $active){ ?>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="<?= $url ?>"><?= $title ?></a>
-                    </li>
-                <?php } else {?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= $url ?>"><?= $title ?></a>
-                    </li>
-                <?php } ?>
-            <?php } ?>
-        </ul>
     </nav>
 </header>
