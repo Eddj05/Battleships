@@ -13,7 +13,6 @@ function p_print($array){
     <!-- Meta Data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= $page_title ?></title>
 
     <!-- Styles -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
