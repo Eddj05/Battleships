@@ -57,7 +57,7 @@ const ships = [destroyer, submarine, cruiser, battleship, carrier]
 let notDropped
 
 function addShipPiece (user, ship, startId) {
-    let allBoardBlocks = document.querySelectorAll(`${user} div`)
+    let allBoardBlocks = document.querySelectorAll(`#${user} div`)
     let isHorizontal = angle === 0
     let startIndex = startId
 
@@ -102,7 +102,7 @@ let draggedShip
 const optionShips = Array.from(optionContainer.children)
 optionShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart))
 
-const allPlayerBlocks = document.querySelectorAll('#player div')
+const allPlayerBlocks = document.querySelectorAll('#player1 div')
 allPlayerBlocks.forEach(playerBlock => {
     playerBlock.addEventListener("dragover", dragOver)
     playerBlock.addEventListener('drop', dropShip)
