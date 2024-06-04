@@ -23,6 +23,17 @@ body {
     color: white;
 }
 
+#gamesboard-container {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-board {
+    height: 200px;
+    width: 200px;
+}
+
 .option-container{
     width: 500px;
     height: 50px;
