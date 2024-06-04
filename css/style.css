@@ -32,6 +32,15 @@ body {
 .game-board {
     height: 200px;
     width: 200px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.block {
+    width: 20px;
+    height: 20px;
+    border: solid 1px lightslategrey;
+    box-sizing: border-box;
 }
 
 .option-container{
