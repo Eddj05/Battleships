@@ -8,6 +8,6 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-    <a id="startup" href ="battleships.php">Start Game!</a>
+    <a id="startup" href ="index.html">Start Game!</a>
     </body>
 </html>
