@@ -1,8 +1,10 @@
 const gamesBoardContainer = document.querySelector('#gamesboard-container')
 const optionContainer = document.querySelector('.option-container')
 const flipButton = document.querySelector('#flip-button')
+const undoButton = document.querySelector('#undo-button');
 
 let angle = 0
+let placementHistory = [];
 function flip() {
     // created by Kennie
     const optionShips = Array.from(optionContainer.children)
@@ -39,7 +41,7 @@ createBoard('lightblue', 'player1')
 createBoard('lightsteelblue', 'player2')
 
 
-
+// create ships
 class Ship {
     constructor(name, length) {
         this.name = name
@@ -99,6 +101,7 @@ function addShipPiece (user, ship, startId) {
             shipBlock.classList.add(ship.name)
             shipBlock.classList.add("taken")
         })
+        placementHistory.push({ ship, shipBlocks });
     } else {
         if (user === 'player1' || user === 'player2') notDropped = true
     }
@@ -146,3 +149,27 @@ function highlightArea(user, startIndex, ship) {
         })
     }
 }
+
+// undo the last ship placement
+function undoLastPlacement() {
+    if (placementHistory.length === 0) return;
+
+    const lastPlacement = placementHistory.pop();
+    const { ship, shipBlocks } = lastPlacement;
+
+    shipBlocks.forEach(shipBlock => {
+        shipBlock.classList.remove(ship.name);
+        shipBlock.classList.remove("taken")
+    });
+
+    // Add the ship back to the options container
+    const shipElement = document.createElement('div');
+    shipElement.id = ships.indexOf(ship).toString(); // Convert number to string
+    shipElement.classList.add('ship', `${ship.name}-preview`, ship.name);
+    shipElement.draggable = true;
+    optionContainer.appendChild(shipElement);
+    shipElement.addEventListener('dragstart', dragStart);
+}
+
+
+undoButton.addEventListener('click', undoLastPlacement);
