@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-    <a id="startup" href ="index.html">Start Game!</a>
+        <div id="startup">
+            <a id="start_button" href ="index.html">Start Game!</a>
+        </div>
     </body>
 </html>

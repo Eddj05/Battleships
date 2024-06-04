@@ -1,12 +1,15 @@
 body {
-    height: 100%;
-    margin: 0;
+
+}
+
+#startup {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-#startup:link, a:visited {
+#start_button:link, a:visited {
     background-color: aqua;
     color: black;
     padding: 14px 25px;
@@ -15,7 +18,7 @@ body {
     display: inline-block;
 }
 
-#startup:hover, a:active {
+#start_button:hover, a:active {
     background-color: blue;
     color: white;
 }
