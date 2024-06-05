@@ -1,5 +1,5 @@
 body {
-
+    margin-left: 20px;
 }
 
 #header {
@@ -141,17 +141,33 @@ body {
 button {
     margin: 15px;
 }
+.choose-player-btn {
+    text-align: center;
+    margin: 20px 0;
+}
 
-.choose-player-btn:link a:visited{
-    background-color: aqua;
+.choose-player-btn a {
+    background-color: cornflowerblue;
     color: black;
     padding: 14px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin: 0 10px;
+}
+
+.choose-player-btn a:hover {
+    text-decoration: underline;
+    color: red;
+}
+.choose-player-btn:link a:visited{
+    color: darkslateblue;
 }
 
 .choose-player-btn:hover a:active {
     background-color: blue;
     color: white;
+}
+#game-info {
+    font-size: large;
 }
