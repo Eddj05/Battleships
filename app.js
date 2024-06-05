@@ -5,6 +5,7 @@ const undoButton = document.querySelector('#undo-button');
 
 let angle = 0
 let placementHistory = [];
+let currentPlayer = document.body.getAttribute('data-current-player');
 function flip() {
     // created by Kennie
     const optionShips = Array.from(optionContainer.children)
@@ -22,20 +23,19 @@ flipButton.addEventListener('click', flip)
 const  width = 10
 
 function createBoard(color, user) {
-    const gameBoardContainer = document.createElement('div')
-    gameBoardContainer.classList.add('game-board')
-    gameBoardContainer.style.backgroundColor = color
-    gameBoardContainer.id = user
+    const gameBoardContainer = document.createElement('div');
+    gameBoardContainer.classList.add('game-board');
+    gameBoardContainer.style.backgroundColor = color;
+    gameBoardContainer.id = user + '-board'; // Assign unique id
 
-    for(let i  = 0; i < width * width; i++) {
-        const block = document.createElement('div')
-        block.classList.add('block')
-        block.id = i
-
-        gameBoardContainer.append(block)
+    for (let i = 0; i < width * width; i++) {
+        const block = document.createElement('div');
+        block.classList.add('block');
+        block.id = i;
+        gameBoardContainer.append(block);
     }
 
-    gamesBoardContainer.append(gameBoardContainer)
+    gamesBoardContainer.append(gameBoardContainer);
 }
 createBoard('lightblue', 'player1')
 createBoard('lightsteelblue', 'player2')
@@ -90,7 +90,7 @@ function getValidity(allBoardBlocks, isHorizontal, startIndex, ship) {
 }
 
 function addShipPiece (user, ship, startId) {
-    let allBoardBlocks = document.querySelectorAll(`#${user} div`)
+    let allBoardBlocks = document.querySelectorAll(`#${user}-board div`);
     let isHorizontal = angle === 0
     let startIndex = startId
 
@@ -111,34 +111,46 @@ let draggedShip
 const optionShips = Array.from(optionContainer.children)
 optionShips.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart))
 
-const allPlayerBlocks = document.querySelectorAll('#player1 div')
-allPlayerBlocks.forEach(playerBlock => {
-    playerBlock.addEventListener("dragover", dragOver)
-    playerBlock.addEventListener('drop', dropShip)
-})
+const allPlayer1Blocks = document.querySelectorAll('#player1-board div'); // Use unique id
+const allPlayer2Blocks = document.querySelectorAll('#player2-board div'); // Use unique id
+
+function addEventListeners(playerBlocks, player) {
+    playerBlocks.forEach(playerBlock => {
+        playerBlock.addEventListener("dragover", dragOver.bind(null, player));
+        playerBlock.addEventListener('drop', dropShip.bind(null, player));
+    });
+}
+
+// Add event listeners to the respective player's blocks
+addEventListeners(allPlayer1Blocks, 'player1');
+addEventListeners(allPlayer2Blocks, 'player2');
 
 function dragStart(e) {
     notDropped = false
     draggedShip = e.target
 }
 
-function dragOver(e) {
-    e.preventDefault()
-    const ship = ships[draggedShip.id]
-    highlightArea("player1", e.target.id, ship)
+function dragOver(user, e) {
+    e.preventDefault();
+    if (user === currentPlayer) {
+        const ship = ships[draggedShip.id];
+        highlightArea(user, e.target.id, ship);
+    }
 }
 
-function dropShip(e) {
-    const startId = e.target.id
-    const ship = ships[draggedShip.id]
-    addShipPiece('player1', ship, startId)
-    if (!notDropped) {
-        draggedShip.remove()
+function dropShip(user, e) {
+    if (user === currentPlayer) {
+        const startId = e.target.id;
+        const ship = ships[draggedShip.id];
+        addShipPiece(user, ship, startId);
+        if (!notDropped) {
+            draggedShip.remove();
+        }
     }
 }
 
 function highlightArea(user, startIndex, ship) {
-    const allBoardBlocks = document.querySelectorAll(`#${user} div`)
+    const allBoardBlocks = document.querySelectorAll(`#${user}-board div`); // Use unique id
     let isHorizontal = angle === 0
     const {shipBlocks, valid, notTaken} = getValidity(allBoardBlocks, isHorizontal, startIndex, ship)
 
