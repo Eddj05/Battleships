@@ -21,6 +21,7 @@ body {
 
 .header-content h1 {
     margin-right: 20px;
+    margin-left: 20px;
 }
 
 .header-content img {
@@ -77,7 +78,7 @@ body {
 }
 
 .destroyer {
-    background-color: brown;
+    background-color: red;
 }
 
 .destroyer-preview {
@@ -87,7 +88,7 @@ body {
 }
 
 .submarine {
-    background-color: green;
+    background-color: limegreen;
 }
 
 .submarine-preview {
@@ -97,7 +98,7 @@ body {
 }
 
 .cruiser {
-    background-color: purple;
+    background-color: darkorchid;
 }
 
 .cruiser-preview {
@@ -136,5 +137,8 @@ body {
 
 .empty {
     background-color: gray;
+}
+button {
+    margin: 15px;
 }
 
