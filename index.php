@@ -12,7 +12,7 @@
         <div class="header-content">
             <img src="Images/battleship2.png" alt="Battleship">
             <h1>Battleships</h1>
-            <img src="Images/battleship2_reverse.png" alt="Battleship">
+            <img src="Images/battleship2_reverse2.png" alt="Battleship">
         </div>
     </div>
         <h3> Welcome to Battleships! </h3>

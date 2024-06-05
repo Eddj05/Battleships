@@ -70,9 +70,11 @@ body {
 }
 
 .player-btn:link, a:visited {
+    font-family: Impact, sans-serif;
     background-color: red;
-    color: black;
+    color: lightgray;
     padding: 14px 25px;
+    border-radius: 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -176,7 +178,7 @@ body {
 
 #flip-button {
     background-color: red;
-    color: dimgrey;
+    color: lightgray;
     font-family: Impact, sans-serif;
     font-size: 30px;
     border-radius: 8px;
@@ -189,7 +191,7 @@ body {
 
 #undo-button {
     background-color: red;
-    color: dimgrey;
+    color: lightgray;
     font-family: Impact, sans-serif;
     font-size: 30px;
     border-radius: 8px;}
@@ -201,7 +203,7 @@ body {
 
 #start_button {
     background-color: red;
-    color: dimgrey;
+    color: lightgray;
     font-family: Impact, sans-serif;
     font-size: 30px;
     border-radius: 8px;
@@ -214,5 +216,6 @@ body {
 
 h3, h4 {
     text-align: center;
+    font-family: Impact, sans-serif;
 }
 
