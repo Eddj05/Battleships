@@ -3,6 +3,10 @@ body {
 }
 
 #header {
+    font-family: Impact, sans-serif;
+    color: dimgrey;
+    text-decoration-line: underline;
+    text-decoration-color: red;
     display: flex;
     justify-content: center;
     align-items: center;
