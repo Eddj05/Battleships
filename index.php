@@ -8,6 +8,15 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
+    <div id="header">
+        <div class="header-content">
+            <img src="Images/battleship.png" alt="Battleship">
+            <h1>Battleships</h1>
+            <img src="Images/battleship_reverse.png" alt="Battleship">
+        </div>
+    </div>
+        <h3> Welcome to Battleships! </h3>
+        <h4> Press the button to start the game!</h4>
         <div id="startup">
             <a id="start_button" href ="index.html">Start Game!</a>
         </div>

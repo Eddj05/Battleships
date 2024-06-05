@@ -35,7 +35,7 @@ body {
 }
 
 #start_button:link, a:visited {
-    background-color: aqua;
+    background-color: red;
     color: black;
     padding: 14px 25px;
     text-align: center;
@@ -156,8 +156,10 @@ button {
     margin: 0 10px;
 }
 
-.choose-player-btn a:hover {
+.choose-player-btn:hover a:active {
     text-decoration: underline;
+    background-color: blue;
+    color: white;
 }
 .choose-player-btn:link a:visited{
     color: darkslateblue;
@@ -170,6 +172,6 @@ button {
 #game-info {
     font-size: large;
 }
-h3{
+h3, h4{
     text-align: center;
 }
