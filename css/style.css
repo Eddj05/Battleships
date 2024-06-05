@@ -1,5 +1,5 @@
 body {
-
+background-color: lightskyblue;
 }
 
 #header {
@@ -21,10 +21,11 @@ body {
 
 .header-content h1 {
     margin-right: 20px;
+
 }
 
 .header-content img {
-    width: 25%;
+    width: 15%;
 }
 #startup {
     display: flex;
