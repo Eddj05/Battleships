@@ -51,6 +51,27 @@ background-color: lightskyblue;
     color: white;
 }
 
+.choose-player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25vh;
+}
+
+.player-btn:link, a:visited {
+    background-color: aqua;
+    color: black;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.player-btn:hover, a:active {
+    background-color: blue;
+    color: white;
+}
+
 #gamesboard-container {
     width: 500px;
     display: flex;
