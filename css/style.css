@@ -1,5 +1,9 @@
 body {
+    background-color: lightskyblue;
+    background-image: url("../Images/wave.png");
+    background-size: 200%;
     margin-left: 20px;
+
 }
 
 #header {
@@ -25,7 +29,7 @@ body {
 }
 
 .header-content img {
-    width: 25%;
+    width: 15%;
 }
 #startup {
     display: flex;
@@ -44,7 +48,7 @@ body {
 }
 
 #start_button:hover, a:active {
-    background-color: blue;
+    background-color: grey;
     color: white;
 }
 
@@ -75,7 +79,7 @@ body {
 }
 
 .player-btn:hover, a:active {
-    background-color: blue;
+    background-color: grey;
     color: white;
 }
 
@@ -103,7 +107,7 @@ body {
     width: 500px;
     height: 60px;
     margin: 30px 0;
-    background-color: lightblue;
+    background-color: lightcyan;
     display: flex;
     align-items: center;
 }
@@ -168,6 +172,44 @@ body {
 
 .empty {
     background-color: gray;
+}
+
+#flip-button {
+    background-color: red;
+    color: dimgrey;
+    font-family: Impact, sans-serif;
+    font-size: 30px;
+    border-radius: 8px;
+}
+
+#flip-button:hover, a:active {
+    background-color: grey;
+    color: white;
+}
+
+#undo-button {
+    background-color: red;
+    color: dimgrey;
+    font-family: Impact, sans-serif;
+    font-size: 30px;
+    border-radius: 8px;}
+
+#undo-button:hover, a:active {
+    background-color: grey;
+    color: white;
+}
+
+#start_button {
+    background-color: red;
+    color: dimgrey;
+    font-family: Impact, sans-serif;
+    font-size: 30px;
+    border-radius: 8px;
+}
+
+#start_button:hover, a:active {
+    background-color: grey;
+    color: white;
 }
 
 h3, h4 {
