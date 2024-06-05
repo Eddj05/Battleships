@@ -21,7 +21,7 @@ body {
 
 .header-content h1 {
     margin-right: 20px;
-    margin-left: 20px;
+
 }
 
 .header-content img {
@@ -44,6 +44,27 @@ body {
 }
 
 #start_button:hover, a:active {
+    background-color: blue;
+    color: white;
+}
+
+.choose-player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25vh;
+}
+
+.player-btn:link, a:visited {
+    background-color: aqua;
+    color: black;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.player-btn:hover, a:active {
     background-color: blue;
     color: white;
 }
@@ -78,7 +99,7 @@ body {
 }
 
 .destroyer {
-    background-color: red;
+    background-color: brown;
 }
 
 .destroyer-preview {
@@ -88,7 +109,7 @@ body {
 }
 
 .submarine {
-    background-color: limegreen;
+    background-color: green;
 }
 
 .submarine-preview {
@@ -98,7 +119,7 @@ body {
 }
 
 .cruiser {
-    background-color: darkorchid;
+    background-color: purple;
 }
 
 .cruiser-preview {
@@ -138,40 +159,4 @@ body {
 .empty {
     background-color: gray;
 }
-button {
-    margin: 15px;
-}
-.choose-player-btn {
-    text-align: center;
-    margin: 20px 0;
-}
 
-.choose-player-btn a {
-    background-color: red;
-    color: black;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 0 10px;
-}
-
-.choose-player-btn:hover a:active {
-    text-decoration: underline;
-    background-color: blue;
-    color: white;
-}
-.choose-player-btn:link a:visited{
-    color: darkslateblue;
-}
-
-.choose-player-btn:hover a:active {
-    background-color: blue;
-    color: white;
-}
-#game-info {
-    font-size: large;
-}
-h3, h4{
-    text-align: center;
-}
