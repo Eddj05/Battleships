@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmButton = document.querySelector(`#confirm-${currentPlayer}`);
     const undoButton = document.querySelector('#undo-button');
 
+    confirmButton.disabled = true; // disable the confirm button initially
+
     confirmButton.addEventListener('click', () => confirmPlacement(currentPlayer));
     undoButton.addEventListener('click', undoLastPlacement);
 
@@ -14,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let placementHistory = [];
     let draggedShip;
     let notDropped;
+    let shipsPlaced = 0; // Track the number of placed ships
 
     function flip() {
         const optionShips = Array.from(optionContainer.children);
@@ -104,6 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 shipBlock.classList.add("taken");
             });
             placementHistory.push({ ship, shipBlocks });
+            shipsPlaced++;
+
+            if (shipsPlaced === ships.length) {
+                confirmButton.disabled = false;
+            }
         } else {
             if (user === 'player1' || user === 'player2') notDropped = true;
         }
@@ -174,6 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
             shipBlock.classList.remove(ship.name);
             shipBlock.classList.remove("taken");
         });
+
+        shipsPlaced--; // Decrement the number of placed ships
+
+        // Disable the confirm button if not all ships are placed
+        confirmButton.disabled = true;
 
         // Add the ship back to the options container
         const shipElement = document.createElement('div');
