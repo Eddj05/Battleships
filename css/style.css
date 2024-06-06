@@ -197,7 +197,7 @@ body {
     gap: 20px; /* Space between buttons */
 }
 
-#flip-button, #undo-button, #start_button {
+.button-container > button {
     background-color: red;
     color: lightgray;
     font-family: Impact, sans-serif;
