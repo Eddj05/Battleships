@@ -49,18 +49,19 @@ body {
     height: 100vh;
 }
 
-#start_button:link, a:visited {
+.button, #start_button:link, #rules_button:link, #start_button:visited, #rules_button:visited {
     background-color: red;
-    color: black;
+    color: dimgrey;
     padding: 14px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    border-radius: 8px;
+    font-family: Impact, sans-serif;
+    margin: 20px;
 }
 
-
-
-#start_button:hover, a:active {
+.button:hover, #start_button:hover, #rules_button:hover, #start_button:active, #rules_button:active {
     background-color: grey;
     color: white;
 }

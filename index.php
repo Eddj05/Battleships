@@ -18,7 +18,8 @@
         <h3> Welcome to Battleships! </h3>
         <h4> Press the button to start the game!</h4>
         <div id="startup">
-            <a id="start_button" href ="index.html">Start Game!</a>
+            <a id="start_button" class="button" href ="index.html">Start Game!</a>
+            <a id="rules_button" class="button" href ="rules.html">How to play</a>
         </div>
     </body>
 </html>
