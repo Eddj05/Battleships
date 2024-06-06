@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let draggedShip;
     let notDropped;
     let shipsPlaced = 0; // Track the number of placed ships
+    let player1Placed = false; // Initialize player1Placed variable
+    let player2Placed = false; // Initialize player2Placed variable
 
     function flip() {
         const optionShips = Array.from(optionContainer.children);
@@ -197,6 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
         shipElement.addEventListener('dragstart', dragStart);
     }
 
+    const startButton = document.querySelector('#start_button');
+    startButton.disabled = true; // Disable the start button initially
+
+
     function confirmPlacement(player) {
         const allBlocks = document.querySelectorAll(`#${player}-board .block`);
         const takenBlocks = [];
@@ -216,7 +222,72 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Taken blocks:', takenBlocks); // Debugging line
 
         saveData(data);
+
+        // Save placement data to local file
+        savePlacementDataLocally(player, takenBlocks);
+
+        // Enable the start button if both players have confirmed their placements
+        if (player === 'player1') {
+            player1Placed = true;
+        } else if (player === 'player2') {
+            player2Placed = true;
+        }
+
+        if (player1Placed && player2Placed) {
+            startButton.disabled = false; // Enable the start button
+        }
     }
+
+    // Function to save placement data locally in player's HTML file
+    function savePlacementDataLocally(player, takenBlocks) {
+        const dataString = JSON.stringify(takenBlocks);
+        const fileName = player + '.html';
+
+        // Use browser's local storage or file system API to save data
+        // Example: localStorage.setItem(player + '_placementData', dataString);
+    }
+
+// Check if ship placement data exists for both players upon game start
+    function checkShipPlacementData() {
+        const player1DataExists = checkPlacementDataExists('player1');
+        const player2DataExists = checkPlacementDataExists('player2');
+
+        if (player1DataExists && player2DataExists) {
+            startButton.disabled = false; // Enable the start button
+        }
+    }
+
+// Function to check if ship placement data exists locally for a player
+    function checkPlacementDataExists(player) {
+        const fileName = player + '.html';
+
+        // Use browser's local storage or file system API to check data existence
+        // Example: return localStorage.getItem(player + '_placementData') !== null;
+
+        // For demonstration purposes, assume data exists if player's HTML file exists
+        return checkFileExists(fileName);
+    }
+
+// Function to check if a file exists
+    function checkFileExists(fileName) {
+        // Implementation depends on the environment (e.g., browser or Node.js)
+        // For a web environment, you can use fetch or XMLHttpRequest to check file existence
+        // Example: return fetch(fileName).then(response => response.ok);
+    }
+
+// Add event listener to the "Start Game" button
+    startButton.addEventListener('click', () => {
+        // Check if both players have confirmed their placements before starting the game
+        if (player1Placed && player2Placed) {
+            console.log('Starting game...'); // Log message indicating game start
+            // Add your game start logic here
+        } else {
+            console.log('Cannot start game yet. Both players must confirm placements.');
+        }
+    });
+
+// Call the function to check ship placement data upon game initialization
+    checkShipPlacementData();
 
     function saveData(data) {
         fetch('server.php', {
@@ -234,4 +305,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error:', error);
             });
     }
+
+    startButton.addEventListener('click', () => {
+        // Check if both players have confirmed their placements before starting the game
+        if (player1Placed && player2Placed) {
+            console.log('Starting game...'); // Log message indicating game start
+            // Add your game start logic here
+        } else {
+            console.log('Cannot start game yet. Both players must confirm placements.');
+        }
+    });
 });
