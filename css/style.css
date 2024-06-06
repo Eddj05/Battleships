@@ -32,7 +32,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .header-content h1 {
@@ -41,7 +41,7 @@ body {
 }
 
 .header-content img {
-    width: 15%;
+    width: 10%;
 }
 #startup {
     display: flex;
@@ -99,6 +99,10 @@ body {
     background-color: dimgray;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#game-info {
+    margin: 10px;
 }
 
 .show-player-container {
