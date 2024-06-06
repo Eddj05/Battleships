@@ -52,7 +52,7 @@ body {
 
 .button, #start_button:link, #rules_button:link, #start_button:visited, #rules_button:visited {
     background-color: red;
-    color: dimgrey;
+    color: lightgray;
     padding: 14px 25px;
     text-align: center;
     text-decoration: none;
@@ -96,7 +96,7 @@ body {
 }
 
 .player-btn:hover, a:active {
-    background-color: grey;
+    background-color: dimgray;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
@@ -233,5 +233,20 @@ h3, h4, p {
     text-align: center;
     font-family: Impact, sans-serif;
     color: black;
+}
+.rules {
+    width: 70%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+
+}
+.homepage h1 {
+    font-family: Impact, sans-serif;
+    color: dimgray;
+    text-decoration-line: underline;
+    text-decoration-color: red;
 }
 
