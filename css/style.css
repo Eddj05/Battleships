@@ -242,10 +242,5 @@ h3, h4, p {
     color: dimgray;
     text-decoration-line: underline;
     text-decoration-color: red;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
 }
+
