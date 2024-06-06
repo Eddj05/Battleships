@@ -226,25 +226,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Save placement data to local file
         savePlacementDataLocally(player, takenBlocks);
 
-        // Enable the start button if both players have confirmed their placements
+        // Enable the start button immediately after the player confirms their placements
         if (player === 'player1') {
             player1Placed = true;
         } else if (player === 'player2') {
             player2Placed = true;
         }
 
-        if (player1Placed && player2Placed) {
-            startButton.disabled = false; // Enable the start button
-        }
+        startButton.disabled = false; // Enable the start button
+
     }
 
     // Function to save placement data locally in player's HTML file
     function savePlacementDataLocally(player, takenBlocks) {
-        const dataString = JSON.stringify(takenBlocks);
-        const fileName = player + '.html';
-
-        // Use browser's local storage or file system API to save data
-        // Example: localStorage.setItem(player + '_placementData', dataString);
+        const data = {
+            player: player,
+            takenBlocks: takenBlocks
+        };
+        // Fetch existing data or initialize as an empty array if none exists
+        let existingData = localStorage.getItem('placements') ? JSON.parse(localStorage.getItem('placements')) : [];
+        // Append new data
+        existingData.push(data);
+        // Save updated data back to local storage
+        localStorage.setItem('placements', JSON.stringify(existingData));
     }
 
 // Check if ship placement data exists for both players upon game start
@@ -306,10 +310,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+// Log ship placements for both players
+    function logShipPlacements() {
+        const player1Placements = JSON.parse(localStorage.getItem('placements')).filter(data => data.player === 'player1');
+        const player2Placements = JSON.parse(localStorage.getItem('placements')).filter(data => data.player === 'player2');
+
+        console.log('Player 1 ship placements:', player1Placements);
+        console.log('Player 2 ship placements:', player2Placements);
+    }
+
+// Add event listener to the "Start Game" button
     startButton.addEventListener('click', () => {
         // Check if both players have confirmed their placements before starting the game
         if (player1Placed && player2Placed) {
             console.log('Starting game...'); // Log message indicating game start
+
+            // Call the function to log ship placements
+            logShipPlacements();
+
             // Add your game start logic here
         } else {
             console.log('Cannot start game yet. Both players must confirm placements.');
