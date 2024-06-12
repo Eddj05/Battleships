@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmButton.disabled = true; // disable the confirm button initially
 
-    confirmButton.addEventListener('click', () => confirmPlacement(currentPlayer));
+    confirmButton.addEventListener('click', (event) => confirmPlacement(event, currentPlayer));
     undoButton.addEventListener('click', undoLastPlacement);
 
     const gamesBoardContainer = document.querySelector('#gamesboard-container');
@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let player1Placed = false; // Initialize player1Placed variable
     let player2Placed = false; // Initialize player2Placed variable
 
-    function flip() {
+    function flip(event) {
+        event.preventDefault();
         const optionShips = Array.from(optionContainer.children);
         angle = angle === 0 ? 90 : 0;
         optionShips.forEach(optionShip => optionShip.style.transform = `rotate(${angle}deg)`);
@@ -92,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains("taken"));
-
         return { shipBlocks, valid, notTaken };
     }
 
@@ -174,7 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // undo the last ship placement
-    function undoLastPlacement() {
+    function undoLastPlacement(event) {
+        event.preventDefault();
         if (placementHistory.length === 0) return;
 
         const lastPlacement = placementHistory.pop();
@@ -203,7 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
     startButton.disabled = true; // Disable the start button initially
 
 
-    function confirmPlacement(player) {
+    function confirmPlacement(event, player) {
+        event.preventDefault();
         const allBlocks = document.querySelectorAll(`#${player}-board .block`);
         const takenBlocks = [];
 
@@ -218,9 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
             takenBlocks: takenBlocks
         };
 
-        console.log('Confirming placement for:', player); // Debugging line
-        console.log('Taken blocks:', takenBlocks); // Debugging line
-
+        console.log('Confirming placement for:', player);
+        console.log('Taken blocks:', takenBlocks);
         saveData(data);
 
         // Save placement data to local file
@@ -234,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         startButton.disabled = false; // Enable the start button
-
     }
 
     // Function to save placement data locally in player's HTML file

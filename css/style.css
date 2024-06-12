@@ -224,11 +224,14 @@ body {
     font-size: 30px;
     border-radius: 8px;
     margin: 10px;
-
 }
 
-.button-container > button:hover {
+.button-container > button:disabled {
     background-color: grey;
+}
+
+.button-container > button:hover:not(:disabled) {
+    background-color: darkred;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
