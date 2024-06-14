@@ -10,7 +10,7 @@
 <div id="header">
     <div class="header-content">
         <img src="Images/battleship2.png" alt="Battleship">
-        <a href="index.php" class="homepage"> <h1>Battleships</h1> </a>
+        <a href="home_screen.php" class="homepage"> <h1>Battleships</h1> </a>
         <img src="Images/battleship2_reverse2.png" alt="Battleship">
     </div>
 </div>
@@ -38,8 +38,8 @@
     <p>
         Good luck playing the game!
     </p>
-    <a href="index.php" class="button">Go back to the homepage</a>
-    <a href="index.html" class="button">Start game!</a>
+    <a href="home_screen.php" class="button">Go back to the homepage</a>
+    <a href="choose_player.php" class="button">Start game!</a>
 </div>
 
 
