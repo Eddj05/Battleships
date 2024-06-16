@@ -2,10 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPlayer = document.body.getAttribute('data-current-player');
     const confirmButton = document.querySelector(`#confirm-${currentPlayer}`);
     const undoButton = document.querySelector('#undo-button');
+    const startButton = document.querySelector('#start_button');
 
     confirmButton.disabled = true; // disable the confirm button initially
 
-    confirmButton.addEventListener('click', (event) => confirmPlacement(event, currentPlayer));
     undoButton.addEventListener('click', undoLastPlacement);
 
     const gamesBoardContainer = document.querySelector('#gamesboard-container');
@@ -175,7 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // undo the last ship placement
     function undoLastPlacement(event) {
+        console.log("Undo button clicked");
         event.preventDefault();
+        console.log("Default action prevented");
         if (placementHistory.length === 0) return;
 
         const lastPlacement = placementHistory.pop();
@@ -200,137 +202,129 @@ document.addEventListener('DOMContentLoaded', () => {
         shipElement.addEventListener('dragstart', dragStart);
     }
 
-    const startButton = document.querySelector('#start_button');
-    startButton.disabled = true; // Disable the start button initially
 
-
-    function confirmPlacement(event, player) {
-        event.preventDefault();
-        const allBlocks = document.querySelectorAll(`#${player}-board .block`);
+    function collectTakenBlocks() {
         const takenBlocks = [];
-
-        allBlocks.forEach(block => {
+        const blocks = document.querySelectorAll('.block');
+        blocks.forEach(block => {
             if (block.classList.contains('taken')) {
                 takenBlocks.push(block.id);
             }
         });
+        return takenBlocks;
+    }
 
+// Event listener for the confirm placement button
+    confirmButton.addEventListener('click', (event) => {
+        console.log("Button clicked");
+        event.preventDefault();
+        console.log("Default action prevented");
+        const takenBlocks = collectTakenBlocks();
+        console.log("The array of taken ID's:", takenBlocks);
+
+        // Determine the player based on the file path
+        let player;
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('player1.php')) {
+            player = 'player1';
+        } else if (currentPath.includes('player2.php')) {
+            player = 'player2';
+        } else {
+            console.error('Unknown player file path:', currentPath);
+            return; // Exit the function if player cannot be determined
+        }
+        console.log('Player determined from file path:', player);
+
+        // Create a new XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+
+        // Configure it: POST-request for the URL /save-placements.php
+        xhr.open('POST', 'save-placements.php', true);
+
+        // Set the request header to indicate JSON data
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+        // Send the request with the takenBlocks array and player information as JSON
         const data = {
             player: player,
             takenBlocks: takenBlocks
         };
+        xhr.send(JSON.stringify(data));
 
-        console.log('Confirming placement for:', player);
-        console.log('Taken blocks:', takenBlocks);
-        saveData(data);
-
-        // Save placement data to local file
-        savePlacementDataLocally(player, takenBlocks);
-
-        // Enable the start button immediately after the player confirms their placements
-        if (player === 'player1') {
-            player1Placed = true;
-        } else if (player === 'player2') {
-            player2Placed = true;
-        }
-
-        startButton.disabled = false; // Enable the start button
-    }
-
-    // Function to save placement data locally in player's HTML file
-    function savePlacementDataLocally(player, takenBlocks) {
-        const data = {
-            player: player,
-            takenBlocks: takenBlocks
+        // Optional: Add event listeners for success and error handling
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('The placements have been saved successfully.');
+            } else {
+                console.log('Failed to save the placements:', xhr.statusText);
+            }
         };
-        // Fetch existing data or initialize as an empty array if none exists
-        let existingData = localStorage.getItem('placements') ? JSON.parse(localStorage.getItem('placements')) : [];
-        // Append new data
-        existingData.push(data);
-        // Save updated data back to local storage
-        localStorage.setItem('placements', JSON.stringify(existingData));
-    }
-
-// Check if ship placement data exists for both players upon game start
-    function checkShipPlacementData() {
-        const player1DataExists = checkPlacementDataExists('player1');
-        const player2DataExists = checkPlacementDataExists('player2');
-
-        if (player1DataExists && player2DataExists) {
-            startButton.disabled = false; // Enable the start button
-        }
-    }
-
-// Function to check if ship placement data exists locally for a player
-    function checkPlacementDataExists(player) {
-        const fileName = player + '.html';
-
-        // Use browser's local storage or file system API to check data existence
-        // Example: return localStorage.getItem(player + '_placementData') !== null;
-
-        // For demonstration purposes, assume data exists if player's HTML file exists
-        return checkFileExists(fileName);
-    }
-
-// Function to check if a file exists
-    function checkFileExists(fileName) {
-        // Implementation depends on the environment (e.g., browser or Node.js)
-        // For a web environment, you can use fetch or XMLHttpRequest to check file existence
-        // Example: return fetch(fileName).then(response => response.ok);
-    }
-
-// Add event listener to the "Start Game" button
-    startButton.addEventListener('click', () => {
-        // Check if both players have confirmed their placements before starting the game
-        if (player1Placed && player2Placed) {
-            console.log('Starting game...'); // Log message indicating game start
-            // Add your game start logic here
-        } else {
-            console.log('Cannot start game yet. Both players must confirm placements.');
-        }
+        xhr.onerror = function () {
+            console.log('Network error occurred while sending placements.');
+        };
     });
 
-// Call the function to check ship placement data upon game initialization
-    checkShipPlacementData();
+    function fetchPlayerData() {
+        // Create a new XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
 
-    function saveData(data) {
-        fetch('server.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(result => {
-                console.log('Success:', result);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        // Configure it: GET-request for the URL /placements.json
+        xhr.open('GET', 'placements.json', true);
+
+        // Send the request
+        xhr.send();
+
+        // Event listener for when the request completes
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('Data fetched successfully.');
+                const data = JSON.parse(xhr.responseText);
+                console.log('Received data:', data);
+
+                // Initialize arrays for player data
+                let player1Blocks = [];
+                let player2Blocks = [];
+
+                // Populate arrays with data
+                if (data.player1) {
+                    player1Blocks = data.player1;
+                }
+                if (data.player2) {
+                    player2Blocks = data.player2;
+                }
+
+                // Log the lists or use them as needed
+                console.log('Player 1 Blocks:', player1Blocks);
+                console.log('Player 2 Blocks:', player2Blocks);
+
+                // Use the lists in your application as needed
+                // For example, you might want to call another function to process these lists
+                processPlayerBlocks(player1Blocks, player2Blocks);
+
+            } else {
+                console.log('Failed to fetch data:', xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.log('Network error occurred while fetching data.');
+        };
     }
 
-// Log ship placements for both players
-    function logShipPlacements() {
-        const player1Placements = JSON.parse(localStorage.getItem('placements')).filter(data => data.player === 'player1');
-        const player2Placements = JSON.parse(localStorage.getItem('placements')).filter(data => data.player === 'player2');
-
-        console.log('Player 1 ship placements:', player1Placements);
-        console.log('Player 2 ship placements:', player2Placements);
+// Dummy function to process the player blocks
+    function processPlayerBlocks(player1Blocks, player2Blocks) {
+        // Process the lists as needed in your application
+        // For example, you might update the UI or perform other actions
+        console.log('Processing player blocks...');
+        console.log(player1Blocks, player2Blocks    );
+        // Your code here
     }
 
-// Add event listener to the "Start Game" button
-    startButton.addEventListener('click', () => {
-        // Check if both players have confirmed their placements before starting the game
-        if (player1Placed && player2Placed) {
-            console.log('Starting game...'); // Log message indicating game start
-
-            // Call the function to log ship placements
-            logShipPlacements();
-
-            // Add your game start logic here
-        } else {
-            console.log('Cannot start game yet. Both players must confirm placements.');
-        }
+    // Event listener for the start button
+    startButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the default action
+        console.log("Start button clicked and default action prevented");
+        fetchPlayerData();
     });
+
 });
