@@ -311,12 +311,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-// Dummy function to process the player blocks
+    // Dummy function to process the player blocks
     function processPlayerBlocks(player1Blocks, player2Blocks) {
         // Process the lists as needed in your application
         // For example, you might update the UI or perform other actions
         console.log('Processing player blocks...');
-        console.log(player1Blocks, player2Blocks    );
+        console.log(player1Blocks, player2Blocks);
         // Your code here
     }
 
