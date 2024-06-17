@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmButton = document.querySelector(`#confirm-${currentPlayer}`);
     const undoButton = document.querySelector('#undo-button');
     const startButton = document.querySelector('#start_button');
+    const infoDisplay = document.querySelector('#info')
 
     confirmButton.disabled = true; // disable the confirm button initially
 
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add click event listener for opponent's board blocks
             if (user !== currentPlayer) {
                 block.addEventListener('click', () => {
-                    blockClicked(block.id, block, user, currentPlayer);
+                    blockClicked(block.id, block, currentPlayer);
                 });
             }
         }
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createBoard('lightblue', 'player1');
     createBoard('lightsteelblue', 'player2');
 
-    function blockClicked(id, block, user, currentPlayer) {
+    function blockClicked(id, block, currentPlayer) {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', 'placements.json', true);
         xhr.onreadystatechange = function() {
@@ -80,14 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (currentPlayer === 'player1') {
                         if (isInPlayer2List(id)) {
                             block.style.backgroundColor = 'red'
+                            infoDisplay.textContent = "You hit a ship!"
                         } else {
                             block.style.backgroundColor = 'black'
+                            infoDisplay.textContent = "You missed Noob"
                         }
                     } else if (currentPlayer === 'player2') {
                         if (isInPlayer1List(id)) {
                             block.style.backgroundColor = 'red'
+                            infoDisplay.textContent = "You hit a ship!"
                         } else {
                             block.style.backgroundColor = 'black'
+                            infoDisplay.textContent = "You missed Noob"
                         }
                     }
                 } else {
