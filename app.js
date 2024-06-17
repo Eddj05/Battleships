@@ -43,12 +43,25 @@ document.addEventListener('DOMContentLoaded', () => {
             block.classList.add('block');
             block.id = i;
             gameBoardContainer.append(block);
+
+            // Add click event listener for opponent's board blocks
+            if (user !== currentPlayer) {
+                block.addEventListener('click', () => {
+                    blockClicked(block.id);
+                });
+            }
         }
+
 
         gamesBoardContainer.append(gameBoardContainer);
     }
     createBoard('lightblue', 'player1');
     createBoard('lightsteelblue', 'player2');
+
+    function blockClicked(id) {
+        console.log('Block clicked:', id);
+    }
+
 
     // create ships
     class Ship {
