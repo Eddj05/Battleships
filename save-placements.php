@@ -47,17 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Handle GET request to fetch placements
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Load the existing JSON data
-    $jsonData = loadJsonData($jsonFile);
-
-    // Return the JSON data
-    header('Content-Type: application/json');
-    echo json_encode($jsonData);
-    exit;
-}
-
 // Handle other request methods
 http_response_code(405);
 echo json_encode(['status' => 'error', 'message' => 'Method not allowed.']);

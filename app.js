@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmButton.disabled = true; // disable the confirm button initially
 
-    undoButton.addEventListener('click', undoLastPlacement);
+
 
     const gamesBoardContainer = document.querySelector('#gamesboard-container');
     const optionContainer = document.querySelector('.option-container');
@@ -202,6 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
         shipElement.addEventListener('dragstart', dragStart);
     }
 
+    undoButton.addEventListener('click', undoLastPlacement);
+
 
     function collectTakenBlocks() {
         const takenBlocks = [];
@@ -214,13 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return takenBlocks;
     }
 
-// Event listener for the confirm placement button
     confirmButton.addEventListener('click', (event) => {
-        console.log("Button clicked");
         event.preventDefault();
-        console.log("Default action prevented");
+
         const takenBlocks = collectTakenBlocks();
-        console.log("The array of taken ID's:", takenBlocks);
 
         // Determine the player based on the file path
         let player;
@@ -231,17 +230,12 @@ document.addEventListener('DOMContentLoaded', () => {
             player = 'player2';
         } else {
             console.error('Unknown player file path:', currentPath);
-            return; // Exit the function if player cannot be determined
+            return;
         }
-        console.log('Player determined from file path:', player);
 
         // Create a new XMLHttpRequest object
         const xhr = new XMLHttpRequest();
-
-        // Configure it: POST-request for the URL /save-placements.php
         xhr.open('POST', 'save-placements.php', true);
-
-        // Set the request header to indicate JSON data
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
         // Send the request with the takenBlocks array and player information as JSON
@@ -251,80 +245,48 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         xhr.send(JSON.stringify(data));
 
-        // Optional: Add event listeners for success and error handling
+        // Handle response
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
-                console.log('The placements have been saved successfully.');
+                console.log('Placements saved successfully.');
             } else {
-                console.log('Failed to save the placements:', xhr.statusText);
+                console.error('Failed to save placements:', xhr.statusText);
             }
         };
+
         xhr.onerror = function () {
-            console.log('Network error occurred while sending placements.');
+            console.error('Network error occurred while sending placements.');
         };
     });
 
-    function fetchPlayerData() {
-        // Create a new XMLHttpRequest object
-        const xhr = new XMLHttpRequest();
-
-        // Configure it: GET-request for the URL /placements.json
-        xhr.open('GET', 'placements.json', true);
-
-        // Send the request
-        xhr.send();
-
-        // Event listener for when the request completes
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                console.log('Data fetched successfully.');
-                const data = JSON.parse(xhr.responseText);
-                console.log('Received data:', data);
-
-                // Initialize arrays for player data
-                let player1Blocks = [];
-                let player2Blocks = [];
-
-                // Populate arrays with data
-                if (data.player1) {
-                    player1Blocks = data.player1;
-                }
-                if (data.player2) {
-                    player2Blocks = data.player2;
-                }
-
-                // Log the lists or use them as needed
-                console.log('Player 1 Blocks:', player1Blocks);
-                console.log('Player 2 Blocks:', player2Blocks);
-
-                // Use the lists in your application as needed
-                // For example, you might want to call another function to process these lists
-                processPlayerBlocks(player1Blocks, player2Blocks);
-
-            } else {
-                console.log('Failed to fetch data:', xhr.statusText);
-            }
-        };
-
-        xhr.onerror = function () {
-            console.log('Network error occurred while fetching data.');
-        };
-    }
-
-    // Dummy function to process the player blocks
-    function processPlayerBlocks(player1Blocks, player2Blocks) {
-        // Process the lists as needed in your application
-        // For example, you might update the UI or perform other actions
-        console.log('Processing player blocks...');
-        console.log(player1Blocks, player2Blocks);
-        // Your code here
-    }
-
-    // Event listener for the start button
     startButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent the default action
-        console.log("Start button clicked and default action prevented");
+        event.preventDefault();
         fetchPlayerData();
     });
 
+    function fetchPlayerData() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'placements.json', true);
+
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const data = JSON.parse(xhr.responseText);
+                processPlayerBlocks(data.player1, data.player2); // Adjust as per your JSON structure
+            } else {
+                console.error('Failed to fetch data:', xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('Network error occurred while fetching data.');
+        };
+
+        xhr.send();
+    }
+
+    function processPlayerBlocks(player1Blocks, player2Blocks) {
+        // Process player blocks as needed
+        console.log('Player 1 Blocks:', player1Blocks);
+        console.log('Player 2 Blocks:', player2Blocks);
+    }
 });
