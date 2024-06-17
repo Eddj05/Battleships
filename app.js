@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add click event listener for opponent's board blocks
             if (user !== currentPlayer) {
                 block.addEventListener('click', () => {
-                    blockClicked(block.id);
+                    blockClicked(block.id, block, user, currentPlayer);
                 });
             }
         }
@@ -58,7 +58,44 @@ document.addEventListener('DOMContentLoaded', () => {
     createBoard('lightblue', 'player1');
     createBoard('lightsteelblue', 'player2');
 
-    function blockClicked(id) {
+    function blockClicked(id, block, user, currentPlayer) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'placements.json', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const jsonData = JSON.parse(xhr.responseText)
+                    const player1Ships = jsonData.player1
+                    const player2Ships = jsonData.player2
+
+                    function isInPlayer1List(number) {
+                        return player1Ships.includes(number);
+                    }
+
+                    // Function to check if a number is in player2's list
+                    function isInPlayer2List(number) {
+                        return player2Ships.includes(number);
+                    }
+
+                    if (currentPlayer === 'player1') {
+                        if (isInPlayer2List(id)) {
+                            block.style.backgroundColor = 'red'
+                        } else {
+                            block.style.backgroundColor = 'black'
+                        }
+                    } else if (currentPlayer === 'player2') {
+                        if (isInPlayer1List(id)) {
+                            block.style.backgroundColor = 'red'
+                        } else {
+                            block.style.backgroundColor = 'black'
+                        }
+                    }
+                } else {
+                    console.error('Failed to fetch JSON:', xhr.statusText);
+                }
+            }
+        };
+        xhr.send();
         console.log('Block clicked:', id);
     }
 
