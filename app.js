@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         xhr.send();
     }
 
+    setInterval(getTurn, 300)
+
     function saveTurn(currentTurn) {
         const xhr = new XMLHttpRequest()
         xhr.open('POST', 'save-turn.php', true)
