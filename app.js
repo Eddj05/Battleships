@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const undoButton = document.querySelector('#undo-button');
     const startButton = document.querySelector('#start_button');
     const infoDisplay = document.querySelector('#info')
+    const turnDisplay = document.querySelector('#turn-display')
 
     confirmButton.disabled = true; // disable the confirm button initially
 
@@ -45,12 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
             block.id = i;
             gameBoardContainer.append(block);
 
-            // Add click event listener for opponent's board blocks
-            if (user !== currentPlayer) {
-                block.addEventListener('click', () => {
-                    blockClicked(block.id, block, currentPlayer);
-                });
-            }
         }
 
 
@@ -58,6 +53,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     createBoard('lightblue', 'player1');
     createBoard('lightsteelblue', 'player2');
+
+    function getTurn () {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'turn.json', true);
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const data = JSON.parse(xhr.responseText)
+                const currentTurn = data.currentPlayer
+                turnDisplay.textContent = `${currentTurn}`
+                setBoardInteraction(currentTurn);
+                console.log('Current Turn:', currentTurn)
+                setBoardInteraction(currentTurn)
+            } else {
+                console.error('Failed to fetch turn:', xhr.statusText)
+            }
+        }
+        xhr.onerror = function () {
+            console.error('Network error occurred')
+        }
+        xhr.send();
+    }
+
+    function saveTurn(currentTurn) {
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', 'save-turn.php', true)
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+        const data = { currentPlayer: currentTurn }
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('turn saved successfully')
+            } else {
+                console.error("failed to save turn")
+            }
+        }
+        xhr.onerror = function () {
+            console.error('Network error')
+        }
+        xhr.send(JSON.stringify(data))
+    }
+
+    function setBoardInteraction(currentTurn) {
+        const allBlocks = gamesBoardContainer.querySelectorAll('.block');
+        allBlocks.forEach(block =>{
+            block.removeEventListener('click', handleBlockClick);
+        });
+
+        const opponentBoard = currentTurn === 'player1' ? '#player2-board' : '#player1-board'
+        const opponentBlocks = document.querySelectorAll(`${opponentBoard} .block`)
+        opponentBlocks.forEach(block => {
+            block.addEventListener('click', handleBlockClick)
+        })
+    }
+
+    function handleBlockClick(event) {
+        const clickedBlock = event.target;
+        const currentTurn = turnDisplay.textContent.includes('player1') ? 'player1' : 'player2'
+        blockClicked(clickedBlock.id, clickedBlock, currentTurn)
+
+        const nextTurn = currentTurn === 'player1' ? 'player2' : 'player1'
+        saveTurn(nextTurn)
+        getTurn()
+    }
+
+    getTurn()
 
     function blockClicked(id, block, currentPlayer) {
         const xhr = new XMLHttpRequest();
