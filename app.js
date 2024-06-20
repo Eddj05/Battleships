@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 turnDisplay.textContent = `${currentTurn}`
                 setBoardInteraction(currentTurn);
                 console.log('Current Turn:', currentTurn)
-                setBoardInteraction(currentTurn)
             } else {
                 console.error('Failed to fetch turn:', xhr.statusText)
             }
@@ -77,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setInterval(getTurn, 300)
 
-    function saveTurn(currentTurn) {
+    function saveTurn(nexTurn) {
         const xhr = new XMLHttpRequest()
         xhr.open('POST', 'save-turn.php', true)
         xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-        const data = { currentPlayer: currentTurn }
+        const data = { currentPlayer: nexTurn }
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
                 console.log('turn saved successfully')
@@ -111,14 +110,53 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleBlockClick(event) {
         const clickedBlock = event.target;
         const currentTurn = turnDisplay.textContent.includes('player1') ? 'player1' : 'player2'
-        blockClicked(clickedBlock.id, clickedBlock, currentTurn)
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'save-clicked-blocks.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
+        var playerClicksField = currentTurn + 'Clicks';
+        var data = {
+            playerClicks: playerClicksField,
+            clickedBlock: clickedBlock.id
+        };
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response.message);
+                } else {
+                    console.error('Error: ' + xhr.statusText);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+        blockClicked(clickedBlock.id, clickedBlock, currentTurn)
         const nextTurn = currentTurn === 'player1' ? 'player2' : 'player1'
         saveTurn(nextTurn)
-        getTurn()
     }
 
-    getTurn()
+    function clearClickedBlocks() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'clear-clicked-blocks.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response.message);
+                } else {
+                    console.error('Error: ' + xhr.statusText);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify({ action: 'clear' }));
+    }
+
+    startButton.addEventListener('click', clearClickedBlocks)
 
     function blockClicked(id, block, currentPlayer) {
         const xhr = new XMLHttpRequest();
