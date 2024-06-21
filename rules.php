@@ -26,7 +26,7 @@
         When there is a boat on that square, this will be announced.
     </p>
     <p>
-        When all the squares of a ship have been hit, the ship's owner announces the sinking of the Battleship, specifying which Battleship it was.
+        When all the squares of a ship have been hit, the sinking of the Battleship will be announced, specifying which Battleship it was.
         If all of a player's ships have been sunk, the game is over and their opponent wins.
     </p>
     <p>
