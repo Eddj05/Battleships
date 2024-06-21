@@ -219,6 +219,77 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Block clicked:', id);
     }
 
+    function checkClickedBlocks() {
+        const currentPath = window.location.pathname;
+        const xhr1 = new XMLHttpRequest();
+        const xhr2 = new XMLHttpRequest();
+
+        let player1Placements = [];
+        let player2Placements = [];
+
+        xhr2.open('GET', 'placements.json', true);
+
+        xhr2.onreadystatechange = function() {
+            if (xhr2.readyState === XMLHttpRequest.DONE) {
+                if (xhr2.status === 200) {
+                    var jsonData1 = JSON.parse(xhr2.responseText);
+                    player1Placements = jsonData1.player1;
+                    player2Placements = jsonData1.player2;
+
+                    // After receiving placements data, initiate the second request
+                    xhr1.open('GET', 'clicked-blocks.json', true);
+
+                    xhr1.onreadystatechange = function () {
+                        if (xhr1.readyState === XMLHttpRequest.DONE) {
+                            if (xhr1.status === 200) {
+                                const jsonData2 = JSON.parse(xhr1.responseText);
+                                const player1Clicks = jsonData2.player1Clicks;
+                                const player2Clicks = jsonData2.player2Clicks;
+
+                                if (currentPath.includes('player1.php')) {
+                                    const recentBlockClickedId = player2Clicks[player2Clicks.length - 1];
+                                    const allBlockPlayer1 = document.querySelectorAll('#player1-board .block');
+
+                                    allBlockPlayer1.forEach(block => {
+                                        const blockId = block.id;
+                                        if (recentBlockClickedId === blockId && player1Placements.includes(blockId)) {
+                                            block.style.backgroundColor = 'red';
+                                            infoDisplay.textContent = 'Your ship got hit';
+                                        } else if (recentBlockClickedId === blockId && !player1Placements.includes(blockId)) {
+                                            block.style.backgroundColor = 'black';
+                                            infoDisplay.textContent = 'The opponent missed';
+                                        }
+                                    });
+                                } else if (currentPath.includes('player2.php')) {
+                                    const recentBlockClickedId = player1Clicks[player1Clicks.length - 1];
+                                    const allBlockPlayer2 = document.querySelectorAll('#player2-board .block');
+
+                                    allBlockPlayer2.forEach(block => {
+                                        const blockId = block.id;
+                                        if (recentBlockClickedId === blockId && player2Placements.includes(blockId)) {
+                                            block.style.backgroundColor = 'red';
+                                            infoDisplay.textContent = 'Your ship got hit';
+                                        } else if (recentBlockClickedId === blockId && !player2Placements.includes(blockId)) {
+                                            block.style.backgroundColor = 'black';
+                                            infoDisplay.textContent = 'The opponent missed';
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    };
+
+                    xhr1.send(); // Send the second request after setting up its callback
+                }
+            }
+        };
+
+        xhr2.send(); // Send the first request
+    }
+
+    checkClickedBlocks()
+
+    setInterval(checkClickedBlocks, 5000)
 
     // create ships
     class Ship {
