@@ -9,13 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-current-player="<?php echo $currentPlayer; ?>">
-<div id="header">
-    <div class="header-content">
-        <img src="Images/battleship2.png" alt="Battleship">
-        <a href="home_screen.php" class="homepage"> <h1>Battleships</h1> </a>
-        <img src="Images/battleship2_reverse2.png" alt="Battleship">
-    </div>
-</div>
+<?php include "tpl/header.php";?>
 
 <div id="game-info">
     <p>Turn: <span id="turn-display"></span></p>

@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<?php include "tpl/body_start.php" ;?>
+<body>
+<?php include "tpl/header.php";?>
 <div class="rules">
     <h2> Rules</h2>
     <p>

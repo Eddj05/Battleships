@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<?php include "tpl/body_start.php" ;?>
+<body>
+<?php include "tpl/header.php";?>
 <h3> Choose a player to start the game!</h3>
 <div class="choose-player-btn" id="choose-player">
     <a id="player1" class="player-btn btn" href="player1.php">Player 1</a>

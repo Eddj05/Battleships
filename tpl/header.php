@@ -1,4 +1,4 @@
-<body>
+
     <div id="header">
         <div class="header-content">
             <img src="Images/battleship2.png" alt="Battleship">
