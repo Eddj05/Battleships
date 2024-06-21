@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmButton.disabled = true; // disable the confirm button initially
 
-
+    let player1clickedblocks = [];
+    let player2clickedblocks = [];
+    const player1Blocks = [];
+    const player2Blocks = [];
 
     const gamesBoardContainer = document.querySelector('#gamesboard-container');
     const optionContainer = document.querySelector('.option-container');
@@ -120,6 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
             clickedBlock: clickedBlock.id
         };
 
+        if (currentTurn === 'player1') {
+            player1clickedblocks.push(clickedBlock.id);
+            player1clickedblocks.sort((a, b) => a - b);
+        } else if (currentTurn === 'player2') {
+            player2clickedblocks.push(clickedBlock.id);
+            player2clickedblocks.sort((a, b) => a - b);
+        }
+        console.log(player1clickedblocks)
+        console.log(player2clickedblocks)
+
+        checkWin(player1Blocks, player2Blocks);
+
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
@@ -135,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         blockClicked(clickedBlock.id, clickedBlock, currentTurn)
         const nextTurn = currentTurn === 'player1' ? 'player2' : 'player1'
         saveTurn(nextTurn)
+
     }
 
     function clearClickedBlocks() {
@@ -420,12 +436,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fetchPlayerData() {
         const xhr = new XMLHttpRequest();
+
         xhr.open('GET', 'placements.json', true);
 
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const data = JSON.parse(xhr.responseText);
-                processPlayerBlocks(data.player1, data.player2); // Adjust as per your JSON structure
+                player1Blocks.push(data.player1);
+                player2Blocks.push(data.player2);
+                processPlayerBlocks(player1Blocks, player2Blocks); // Adjust as per your JSON structure
             } else {
                 console.error('Failed to fetch data:', xhr.statusText);
             }
@@ -436,11 +455,35 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         xhr.send();
-    }
 
+
+    }
     function processPlayerBlocks(player1Blocks, player2Blocks) {
-        // Process player blocks as needed
         console.log('Player 1 Blocks:', player1Blocks);
         console.log('Player 2 Blocks:', player2Blocks);
+
+        checkWin(player1Blocks, player2Blocks);
+    }
+
+    function checkWin(player1Blocks, player2Blocks) {
+        console.log("playerBlocks:", player1Blocks, player2Blocks)
+        console.log("clickedplayerBlocks:", player1clickedblocks, player2clickedblocks)
+        const player2Wins = isSubset(player1Blocks, player2clickedblocks);
+        const player1Wins = isSubset(player2Blocks, player1clickedblocks);
+
+        if (player1Wins) {
+            alert("Player 1 wins!");
+            // Optionally, update UI to indicate Player 1 wins
+            // For example: winnerWarning.textContent = "Player 1 wins!";
+        } else if (player2Wins) {
+            alert("Player 2 wins!");
+            // Optionally, update UI to indicate Player 2 wins
+            // For example: winnerWarning.textContent = "Player 2 wins!";
+        }
+    }
+
+// Function to check if array1 is a subset of array2
+    function isSubset(array1, array2) {
+        return array1.every(item => array2.includes(item));
     }
 });
