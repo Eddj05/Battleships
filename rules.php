@@ -22,7 +22,7 @@
         After the ships have been positioned, the game proceeds in a series of rounds.
     </p>
     <p>
-        In each round, each player takes a turn to click on a target square in the opponent's grid which is to be shot at.
+        In each round, starting with player 1, each player takes a turn to click on a target square in the opponent's grid which is to be shot at.
         When there is a boat on that square, this will be announced.
     </p>
     <p>
